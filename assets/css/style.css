@@ -1,0 +1,11 @@
+.animal_list{
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    margin: 15px;
+}
+
+.margin-left{
+    margin-left: 3px;
+    margin-top: 10px;
+}
