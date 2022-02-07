@@ -1,6 +1,21 @@
 <template>
   <b-container class="margin-left">
-    <b-form @submit="onSubmit" @reset="onReset">
+    <template v-if="phone">
+        <b-form-group
+        id="input-group-1"
+        label="Phone:"
+        label-for="input-1"
+        description="We'll never share your email with anyone else."
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.phone"
+          type="phone"
+          placeholder="Enter phone"
+        ></b-form-input>
+      </b-form-group>
+    </template>
+    <b-form v-else>
       <b-form-group
         id="input-group-1"
         label="Email address:"
@@ -12,7 +27,6 @@
           v-model="form.email"
           type="email"
           placeholder="Enter email"
-          required
         ></b-form-input>
       </b-form-group>
 
@@ -23,12 +37,11 @@
           aria-describedby="password-help-block"
           v-model="form.password"
           placeholder="Password"
-          required
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button @click="onSubmit" type="submit" variant="primary">Submit</b-button>
+      <b-button @click="onPhone" type="phone" variant="danger">Login By Phone</b-button>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -38,8 +51,15 @@
 
 <script>
   export default {
+    props:{
+        loginWithPhone:{
+            type : Boolean,
+            default : false
+        }
+    },
     data() {
       return {
+        phone: false,
         form: {
           email: '',
           password: '',
@@ -47,15 +67,29 @@
       }
     },
     methods: {
-      onSubmit(event) {
+      async onSubmit(event) {
         event.preventDefault()
-        alert(JSON.stringify(this.form))
+        try{
+        const login = await this.$axios.$post('/auth',{
+            username : this.form.email,
+            password : this.form.password
+        })
+         this.$emit("success-login", {
+            username: this.form.email,
+            type: this.loginWithPhone ? "phone" : "email"
+        });
+         this.$router.push("/");
+        }catch (error) {
+            // this.setValidationFromBackend(error);
+            alert(error.message)
+          console.log('err', error)
+        }
       },
-      onReset(event) {
+      onPhone(event) {
         event.preventDefault()
+        this.phone = !this.phone
         // Reset our form values
-        this.form.email = ''
-        this.form.password = ''
+        
       }
     }
   }

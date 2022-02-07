@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Index from '~/pages/index'
+import Component from '~/pages/tesComponent'
 import DetailProduct from '~/components/DetailProduct'
 import Login from '~/components/Login'
+import PaymentMethod from '~/components/PaymentMethod'
 
 Vue.use(Router)
 
@@ -23,6 +25,15 @@ export function createRouter() {
             path: '/login',
             component: Login
         },
+        {
+            path: '/payment_method',
+            component: PaymentMethod,
+            props: true
+        },
+        {
+            path: '/tes_component',
+            component: Component
+        }
     ]
   })
 }

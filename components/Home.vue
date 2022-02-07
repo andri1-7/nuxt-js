@@ -4,43 +4,31 @@
             <BannerSlider/>
         </div>
         <div>
-            <h2 class="margin-left">Paling Banyak Dicari</h2>
+            <p class="text-2xl">Paling Banyak Dicari</p>
         </div>
         <div class="margin-left">
             <button @click="topProduct()" v-bind:class="(active_top == true) ? 'btn btn-primary mb-3': 'btn btn-warning mb-3'">Top Produk</button>
             <button @click="palingBanyakDilihat()" v-bind:class="(active_dilihat == true) ? 'btn btn-primary mb-3 mx-3': 'btn btn-warning mb-3 mx-3'">Paling banyak dilihat</button>
             <button @click="palingBanyakDinilai()" v-bind:class="(active_dinilai == true) ? 'btn btn-primary mb-3': 'btn btn-warning mb-3'">Paling banyak dinilai</button>
         </div>
-        <b-row>
-            <b-col cols="3" v-for="produk in products.data" :key="produk.id" class="margin-left">
-                <nuxt-link :to="`/detail_produk/${produk.slug}`">
-                    <div>
-                        <b-card-group deck>
-                            <b-card
-                                class="position-relative"
-                                :img-src="produk.thumbnail"
-                                img-alt="Image"
-                                img-top
-                                >
-                            <b-card-text>
-                                {{ produk.name }}
-                            </b-card-text>
-                            <template #footer>
-                                <small class="text-muted">{{produk.price}}</small>
-                            </template>
-                            </b-card>
-                        </b-card-group>
-                    </div>
-                </nuxt-link>
-            </b-col>
-            <button @click="muatLebih()">Muat Lebih Banyak </button>
-        </b-row>
+        <div class="margin-left grid lg:grid-cols-4 gap-4">
+            <Card
+                v-for="produk in products.data"
+                :key="produk.id"
+                :produk="produk"
+            />
+        </div> 
+        <button @click="muatLebih()">Muat Lebih Banyak </button>
     </b-container>
 </template>
 
 <script>
 import axios from 'axios'
+import Card from '~/components/Global/Card'
 export default {
+    components: {
+        Card
+    },
     async created(){
         const products = await this.$axios.$get('/products?limit=6&page=1')
         this.products = products.data
