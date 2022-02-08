@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'card',
+  name: 'Card',
   props: ['produk']
 }
 </script>

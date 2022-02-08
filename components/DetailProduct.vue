@@ -1,6 +1,5 @@
 <template>
     <div>
-    <Header/>
         <div v-if="loading">
           <div>
             <b-spinner type="grow" label="Loading..."></b-spinner>

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index from '~/pages/index'
 import Component from '~/pages/tesComponent'
 import DetailProduct from '~/components/DetailProduct'
+import StoreExample from '~/components/StoreExample'
 import Login from '~/components/Login'
 import PaymentMethod from '~/components/PaymentMethod'
 
@@ -33,6 +34,10 @@ export function createRouter() {
         {
             path: '/tes_component',
             component: Component
+        },
+        {
+            path: '/store_example',
+            component: StoreExample
         }
     ]
   })

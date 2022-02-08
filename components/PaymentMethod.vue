@@ -78,7 +78,7 @@ export default {
          console.log('props',this.$route)
         try{
             this.loading = true
-            const paymentMethod = await axios.get('http://bf63-118-99-110-37.ngrok.io/api/v1/portal/payment_method')
+            const paymentMethod = await axios.get('http://bf63-118-99-110-37.ngrok.io/api/v1/portal/payment_method?filter='+this.filter_payment)
             this.payment_method = paymentMethod
             this.loading = false
         }catch(error){
@@ -88,6 +88,7 @@ export default {
     data(){
         return{
             payment_method: '',
+            filter_payment: 'qris',
             loading : false,
             cc_condition : false,
             token_cc : '',
@@ -109,12 +110,12 @@ export default {
                 try{
                     const sendPayment = await axios.post('http://bf63-118-99-110-37.ngrok.io/api/v1/portal/create_payment',{
                         client_id: "YqeO6ToHZZxTJ2ovGM5YaQHQBWu2jSagjtkJS0m4eFV7WL8LEf",
-                        reference_id: "gkj2895y3hfajlksdjkg0",
+                        reference_id: "asdasda"+Math.random().toString(36).slice(2),
                         token_id: "481111-1114-8d3dfd37-46c0-410d-bb10-b8ea47821540",
                         method_id: data.id,
                         amount: 80000,
                         description: "testwong no.4",
-                        redirect_url: "http://a88d-103-109-194-26.ngrok.io",
+                        redirect_url: "http://bf63-118-99-110-37.ngrok.io",
                         customer: {
                             first_name: "kadal",
                             last_name: "ijo",
@@ -140,7 +141,7 @@ export default {
         createTokenCC: async function(event){
             event.preventDefault()
             try{
-                const createToken = await axios.post('http://a88d-103-109-194-26.ngrok.io/api/v1/midtrans/card_token',{
+                const createToken = await axios.post('http://bf63-118-99-110-37.ngrok.io/api/v1/midtrans/card_token',{
                     card_number : this.form.card_number,
                     exp_month : this.form.exp_month,
                     exp_year : this.form.exp_year,
@@ -149,7 +150,7 @@ export default {
                 if(createToken.data.message == "Error"){
                     alert(createToken.data.data)
                 }else{
-                    this.token_cc = createToken
+                    this.token_cc = createToken.token_id
                 }
                 console.log('createtoken', createToken.data.data)
             }catch(error){

@@ -3,6 +3,7 @@
         <div class="links">
           <nuxt-link to="/" class="button--grey">Home</nuxt-link>
           <nuxt-link to="/Login" class="button--grey">Login</nuxt-link>
+          <nuxt-link to="/store_example" class="button--grey">Store Example</nuxt-link>
           <nuxt-link :to="{path:'payment_method'}" class="button--grey">Simulasi Payment</nuxt-link>
         </div>
     </div>
